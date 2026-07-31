@@ -118,13 +118,21 @@ def main():
     tickers = [args.detail] if args.detail else load_universe(args.universe)
 
     results = []
+    # A spinner is useless once the run is long enough to background, so past a
+    # few dozen names switch to periodic lines that survive being piped to a log.
+    verbose = len(tickers) > 50
+    if verbose:
+        console.print("[dim]{} companies to fetch[/]".format(len(tickers)))
     with console.status("[dim]fetching...") as status:
-        for t in tickers:
+        for i, t in enumerate(tickers, 1):
             status.update("[dim]{}...".format(t))
             try:
                 results.append(analyse(edgar, t))
             except Exception as exc:  # one bad filer must not stop the run
                 results.append({"ticker": t, "cik": t, "status": "ERROR: {}".format(exc)[:38]})
+            if verbose and i % 25 == 0:
+                done = sum(1 for r in results if r["status"] == "PASS")
+                console.print("[dim]  {}/{}  ({} passing so far)[/]".format(i, len(tickers), done))
 
     if args.detail:
         detail(results[0])
