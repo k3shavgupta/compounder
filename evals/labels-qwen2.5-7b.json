@@ -6,7 +6,7 @@
       "id": "ANET/customer_concentration/0",
       "ticker": "ANET",
       "question": "customer_concentration",
-      "claim": "Yes, two specific customers accounted for more than 10% of the company's revenue each year from 2023 to 2025.",
+      "claim": "Yes, two specific customers accounted for more than 10% of the total revenue each year from 2023 to 2025.",
       "quote": "Two of our customers accounted for more than 10% of our total revenue in each of the last three years. Sales to one end customer represented 16%, 15%, and 21% of our total revenue, and sales to the other end customer represented 26%, 20%, and 18% of our total revenue for the years ended December 31, 2025, 2024, and 2023, respectively.",
       "verdict": "ok",
       "carried": true
@@ -26,7 +26,7 @@
       "question": "competition",
       "claim": "The company lists several competitive advantages including the ability to develop their own silicon chips, set more aggressive pricing policies, lower labor and development costs, greater resources for acquisitions, a larger intellectual property rights portfolio, and substantial financial, technical, research and development or other resources.",
       "quote": "The markets in which we participate are highly competitive and characterized by rapidly transforming technology, changing end-customer needs, evolving industry standards, frequent introductions of new products and services and industry consolidation. We expect competition to intensify in the future as the market for cloud and AI networking expands and existing competitors and new market entrants introduce new products or enhance existing products.",
-      "verdict": "quote"
+      "verdict": ""
     },
     {
       "id": "ANET/competition/2",
@@ -34,7 +34,7 @@
       "question": "competition",
       "claim": "The company also mentions that it competes with established network equipment vendors such as Cisco, Dell/EMC, Extreme Networks, Hewlett Packard Enterprise, Huawei, Nvidia, and white box networking vendors utilizing open-source operating systems.",
       "quote": "The markets in which we compete, including the markets for data center, campus networking, network visibility and security and AI, are intensely competitive, and we expect competition to increase in the future from established competitors, industry consolidation and new market entrants. This competition has resulted in increased pricing pressure, which could result in reduced profit margins, increased sales and marketing expenses and the loss of market share, any of which would likely harm our business, financial condition, results of operations and prospects.",
-      "verdict": "quote"
+      "verdict": ""
     },
     {
       "id": "ANET/competition/3",
@@ -42,15 +42,15 @@
       "question": "competition",
       "claim": "The company states that it competes with both existing competitors and new market entrants.",
       "quote": "We also face competition from other companies and new market entrants, including current technology partners, suppliers and customers or other cloud service providers who may acquire or develop network switches and cloud service solutions for internal use and/or to broaden their portfolio of products to market and sell to customers.",
-      "verdict": "ok"
+      "verdict": ""
     },
     {
       "id": "ANET/key_risks/0",
       "ticker": "ANET",
       "question": "key_risks",
-      "claim": "The most significant risks include natural disasters, supply chain disruptions, and economic conditions affecting demand.",
+      "claim": "The most significant risks disclosed include natural disasters, supply chain disruptions, and economic conditions.",
       "quote": "Our corporate headquarters and the operations of our key manufacturing vendors, logistics providers and partners, as well as many of our customers, are located in areas, such as the San Francisco Bay Area, Japan and Taiwan, that are exposed to risks of natural disasters and threats, such as fires, earthquakes, tsunamis, extreme precipitation or winds, high heat or outbreaks of disease, and systemic failures, or other catastrophic events, such as widespread power outages or transportation network malfunctions. In addition, climate change may result in greater frequency and severity of such natural disasters and systemic failures.",
-      "verdict": "quote"
+      "verdict": ""
     },
     {
       "id": "ADBE/customer_concentration/0",
@@ -58,7 +58,7 @@
       "question": "customer_concentration",
       "claim": "No single customers accounted for 10% or more of net revenue.",
       "quote": "For all periods presented, there were no customers that represented at least 10% of net revenue or that were responsible for over 10% of our trade receivables.",
-      "verdict": "ok"
+      "verdict": ""
     },
     {
       "id": "ADBE/debt_maturity/0",
@@ -66,8 +66,7 @@
       "question": "debt_maturity",
       "claim": "The company has senior notes maturing in 2028, 2030, and 2035.",
       "quote": "In January 2025, we issued $800 million of senior notes due January 17, 2028, $700 million of senior notes due January 17, 2030 and $500 million of senior notes due January 17, 2035.",
-      "verdict": "ok",
-      "carried": true
+      "verdict": ""
     },
     {
       "id": "ADBE/competition/0",
@@ -84,7 +83,8 @@
       "question": "competition",
       "claim": "The company states that its competitive advantages lie in anticipating emerging standards, business models, software delivery methods, and other technological changes to enhance existing solutions and introduce new ones in a timely and cost-effective manner.",
       "quote": "Our future success will depend on our ability to effectively appeal to customers and accurately predict and meet changing customer needs by enhancing our existing solutions and introducing new ones in a timely and cost-effective manner. We need to anticipate emerging standards, business models, software delivery methods, and other technological changes.",
-      "verdict": "ok"
+      "verdict": "ok",
+      "carried": true
     },
     {
       "id": "TTD/customer_concentration/0",
@@ -92,7 +92,8 @@
       "question": "customer_concentration",
       "claim": "Two clients each accounted for at least 10%, and collectively accounted for 30%, of consolidated accounts receivable as of December 31, 2025.",
       "quote": "As of December 31, 2025, two clients each accounted for at least 10%, and collectively accounted for 30%, of consolidated accounts receivable.",
-      "verdict": "ok"
+      "verdict": "ok",
+      "carried": true
     },
     {
       "id": "TTD/debt_maturity/0",
@@ -100,13 +101,13 @@
       "question": "debt_maturity",
       "claim": "The Amended Credit Facility matures on June 15, 2026.",
       "quote": "The Amended Credit Facility matures, and all outstanding amounts become due and payable, on June 15, 2026.",
-      "verdict": "ok"
+      "verdict": ""
     },
     {
       "id": "TTD/competition/0",
       "ticker": "TTD",
       "question": "competition",
-      "claim": "The company claims to compete primarily based on the performance, capabilities, and transparency of their platform, along with a focus on the buy side. They also differentiate themselves by being an independent technology company focused on serving advertising agencies, advertisers, and others without conflicts of interest, using proprietary AI technologies, providing access to premium omnichannel inventory and third-party data vendors, and allowing clients to integrate custom features through APIs.",
+      "claim": "The company claims to compete primarily based on the performance, capabilities, and transparency of their platform, along with a focus on the buy side. They also differentiate themselves by being an independent technology company focused on serving advertising agencies, advertisers, and others without conflicts of interest, using proprietary AI technologies, providing comprehensive access to premium omnichannel inventory and third-party data vendors, and allowing clients to build custom features through APIs.",
       "quote": "We believe that we compete primarily based on the performance, capabilities and transparency of our platform as well as our focus on the buy side. We believe we are differentiated from our competitors in the following areas:",
       "verdict": "quote",
       "carried": true
@@ -126,7 +127,7 @@
       "question": "key_risks",
       "claim": "The most significant risks disclosed include disruptions from health events and supply chain issues, which could have a material adverse effect on operating and financial results.",
       "quote": "Disruption of our supply chain capabilities due to trade restrictions, political instability, war (including the conflicts in the Middle East), terrorism, severe weather, natural disasters, public health crises, product recalls, labor supply shortages or stoppages, the financial or operational instability of key suppliers and carriers, changes in diplomatic or trade relationships (including any sanctions, restrictions, tariffs, and other responses such as those related to current geopolitical events), or other reasons could impair our ability to distribute our products. To the extent we are unable to mitigate the likelihood or potential impact of such events, there could be a material adverse effect on our operating and financial results.",
-      "verdict": "quote"
+      "verdict": ""
     },
     {
       "id": "LULU/key_risks/1",
@@ -134,7 +135,7 @@
       "question": "key_risks",
       "claim": "Additionally, brand reputation risks, such as negative publicity or product defects, pose significant threats.",
       "quote": "Our brand and reputation could be adversely affected by negative publicity, if we fail to deliver innovative and high-quality products acceptable to our guests, or if we face or mishandle a product recall, which could be amplified by social media. Our reputation could also be impacted by adverse publicity, whether or not valid, regarding allegations that we, or persons currently or previously associated with us, have violated laws or regulations, including but not limited to those related to safety, employment, discrimination, harassment, whistle-blowing, privacy, corporate citizenship, improper business practices, or cybersecurity. Certain activities on the part of stakeholders, including nongovernmental organizations and governmental institutions, could cause reputational damage, distract senior management, and disrupt our business.",
-      "verdict": "ok"
+      "verdict": ""
     },
     {
       "id": "LULU/key_risks/2",
@@ -142,7 +143,7 @@
       "question": "key_risks",
       "claim": "The risk of operational disruptions due to health events is also highlighted.",
       "quote": "Health events may also cause long-term changes to consumer shopping behavior, preferences, and demand for our products.",
-      "verdict": "quote"
+      "verdict": ""
     },
     {
       "id": "COST/debt_maturity/0",
@@ -150,7 +151,8 @@
       "question": "debt_maturity",
       "claim": "The company's long-term debt maturities are scheduled as follows:",
       "quote": "Maturities of long-term debt during the next five fiscal years and thereafter are as follows:",
-      "verdict": "ok"
+      "verdict": "ok",
+      "carried": true
     },
     {
       "id": "COST/competition/0",
@@ -158,7 +160,7 @@
       "question": "competition",
       "claim": "The company claims to compete based on factors such as price, merchandise quality and selection, location, convenience, distribution strategy, and customer service.",
       "quote": "Our industry is highly competitive, based on factors such as price, merchandise quality and selection, location, convenience, distribution strategy, and customer service.",
-      "verdict": "ok"
+      "verdict": ""
     },
     {
       "id": "COST/key_risks/0",
@@ -166,7 +168,7 @@
       "question": "key_risks",
       "claim": "The most significant risks disclosed include operational disruptions from natural disasters, pandemics, and legal/regulatory changes that could have a material adverse effect on the business.",
       "quote": "These events could also reduce demand for our products or make it difficult or impossible to procure products. We may be required to suspend operations in some or all of our locations, which could have a material adverse effect on our business, financial condition and results of operations.",
-      "verdict": "quote"
+      "verdict": ""
     }
   ],
   "dropped": {

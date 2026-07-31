@@ -33,6 +33,12 @@ CHAT_MODEL = os.getenv("CHAT_MODEL", "qwen2.5:7b")
 NUM_CTX = 16384
 TOP_K = 8
 
+# Ollama does not cap output by default. Asking for multi-sentence quotes was
+# enough to send the model into a repeating loop that ran past ten minutes and
+# blocked every other request, since Ollama serialises per model. Three or four
+# quote/claim pairs need well under this.
+MAX_TOKENS = 800
+
 # A term matching more than this share of chunks carries no information and is
 # ignored for seeding.
 MAX_TERM_SHARE = 0.12
@@ -84,6 +90,12 @@ QUESTIONS = [
     },
 ]
 
+# Reverted to CLAIM-first on 2026-08-01. A QUOTE-first variant that also banned
+# heading quotes left the miss rate flat at 22%, doubled the mechanical
+# rejection rate, and lost the Adobe customer-concentration finding that hybrid
+# retrieval had just recovered. Its only possible gain was precision, which
+# would have cost 22 fresh labels to measure — not worth trading a known-good
+# state for. Keep it reverted unless an eval says otherwise.
 SYSTEM = (
     "You answer questions about SEC filings using ONLY the provided excerpts.\n"
     "For every claim you make you must give the exact sentence from the excerpts "
@@ -96,7 +108,10 @@ SYSTEM = (
 )
 
 
-def _post(path, payload, host=None, timeout=600):
+# 10 minutes was not enough once the prompt started asking for multi-sentence
+# quotes. A stalled generation should fail the run, not silently truncate it,
+# so the cap is generous rather than absent.
+def _post(path, payload, host=None, timeout=1800):
     r = requests.post((host or DEFAULT_HOST) + path, json=payload, timeout=timeout)
     r.raise_for_status()
     return r.json()
@@ -177,7 +192,8 @@ def ask(question, excerpts, host=None, model=None):
             "prompt": prompt,
             "stream": False,
             "keep_alive": KEEP_ALIVE,
-            "options": {"num_ctx": NUM_CTX, "temperature": 0.0},
+            "options": {"num_ctx": NUM_CTX, "temperature": 0.0,
+                        "num_predict": MAX_TOKENS},
         },
         host,
     )
@@ -207,32 +223,53 @@ def _is_evidence(quote):
 
 
 def verify(answer, source_text):
-    """Split the answer into claim/quote pairs and keep only provable findings.
+    """Pair up QUOTE/CLAIM lines and keep only provable findings.
 
-    Returns (findings, n_rejected). A finding survives three tests: the claim is
-    substantive, the quote reads like evidence rather than a heading, and the
-    quote appears verbatim in the filing. The model is never trusted, it is
-    checked — but note this proves the quote is REAL, not that it supports the
-    claim. Measuring that gap is what the eval harness is for.
+    Order-agnostic: the prompt asks for QUOTE first, but a model that reverts to
+    CLAIM first should not have its output silently discarded. A pair is emitted
+    as soon as both halves are present.
+
+    A finding survives three tests: the claim is substantive, the quote reads
+    like evidence rather than a heading, and the quote appears verbatim in the
+    filing. The model is never trusted, it is checked — but note this proves the
+    quote is REAL, not that it supports the claim. Measuring that gap is what
+    the eval harness is for.
     """
     haystack = normalise(source_text)
     findings, rejected = [], 0
-    claim = None
+    quote = claim = None
+
+    def flush():
+        nonlocal quote, claim, rejected
+        if quote is None and claim is None:
+            return
+        ok = (
+            claim
+            and quote
+            and claim.lower() not in {"none", "n/a", "not found", "-"}
+            and _is_evidence(quote)
+            and normalise(quote) in haystack
+        )
+        if ok:
+            findings.append({"claim": claim, "quote": quote})
+        else:
+            rejected += 1
+        quote = claim = None
+
     for line in answer.splitlines():
         line = line.strip()
-        if line.upper().startswith("CLAIM:"):
-            claim = line[6:].strip()
-        elif line.upper().startswith("QUOTE:"):
+        upper = line.upper()
+        if upper.startswith("QUOTE:"):
+            if quote is not None:
+                flush()
             quote = line[6:].strip().strip('"')
-            ok = (
-                claim
-                and claim.lower() not in {"none", "n/a", "not found", "-"}
-                and _is_evidence(quote)
-                and normalise(quote) in haystack
-            )
-            if ok:
-                findings.append({"claim": claim, "quote": quote})
-            else:
-                rejected += 1
-            claim = None
+            if claim is not None:
+                flush()
+        elif upper.startswith("CLAIM:"):
+            if claim is not None:
+                flush()
+            claim = line[6:].strip()
+            if quote is not None:
+                flush()
+    flush()
     return findings, rejected
