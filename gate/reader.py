@@ -33,6 +33,11 @@ CHAT_MODEL = os.getenv("CHAT_MODEL", "qwen2.5:7b")
 NUM_CTX = 16384
 TOP_K = 8
 
+# Ollama evicts an idle model from VRAM and reloads it on the next call. Across
+# an eval sweep that is minutes of pure reload time and makes runs look slower
+# than they are, so pin both models in memory for the duration.
+KEEP_ALIVE = "30m"
+
 QUESTIONS = [
     {
         "key": "customer_concentration",
@@ -85,7 +90,9 @@ def _post(path, payload, host=None, timeout=600):
 def embed(texts, host=None, model=None):
     out = []
     for t in texts:
-        d = _post("/api/embeddings", {"model": model or EMBED_MODEL, "prompt": t}, host)
+        d = _post("/api/embeddings",
+                  {"model": model or EMBED_MODEL, "prompt": t,
+                   "keep_alive": KEEP_ALIVE}, host)
         out.append(d["embedding"])
     return out
 
@@ -112,6 +119,7 @@ def ask(question, excerpts, host=None, model=None):
             "system": SYSTEM,
             "prompt": prompt,
             "stream": False,
+            "keep_alive": KEEP_ALIVE,
             "options": {"num_ctx": NUM_CTX, "temperature": 0.0},
         },
         host,

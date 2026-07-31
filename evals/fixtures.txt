@@ -1,0 +1,11 @@
+# Filings to evaluate against. Chosen so the answers differ — a fixture set
+# where every question has the same answer measures nothing.
+#
+# Keep this small. Ten well-labelled filings beat fifty half-labelled ones,
+# and every ticker added is reading you have to do.
+
+ANET    # two customers >10% of revenue, and no debt — a true positive and a true negative
+ADBE    # opposite: no customer concentration, real senior notes with dated maturities
+TTD     # 73% below its 200-week line — the one where the thesis most needs checking
+LULU    # 60% below; consumer brand, so the moat claim is the interesting part
+COST    # large, boring, heavily covered — errors here are errors you will notice
