@@ -129,23 +129,52 @@ def label(model):
         ans = console.input("  > ").strip().lower()
         if ans == "x":
             break
-        if ans in FINDING_VERDICTS:
-            item["verdict"] = ans
+        # Match on the leading word, not the whole line. Requiring an exact
+        # string silently discarded answers like "quote - true elsewhere in the
+        # filing but not here", which is a considered judgement, not a typo.
+        head = ans.split()[0].strip(" -–—:,") if ans else ""
+        verdict = next((v for v in FINDING_VERDICTS if head == v), None)
+        if verdict:
+            item["verdict"] = verdict
+            if len(ans) > len(head) + 2:
+                item["note"] = ans[len(head):].strip(" -–—:,")
             _save(lp, data)
+        elif head and head != "s":
+            console.print("  [yellow]not recognised — skipped[/]")
         console.print()
 
+    return label_truth()
+
+
+def label_truth():
+    """The truth set on its own.
+
+    Kept separately reachable because it is the cheap half — one word per item,
+    no reading for most — and it produces the miss rate, which is the number
+    that matters most. Burying it behind the findings loop meant it never got
+    done.
+    """
+    truth = _load(TRUTH, {})
     pending = [(t, q) for t, qs in truth.items() for q, v in qs.items() if not v]
-    if pending:
-        console.print("\n[bold]Now the truth set — did the filing answer this at all?[/]")
-        console.print("[dim]disclosed / absent, s=skip, x=stop[/]\n")
-        for tk, q in pending:
-            console.print("  [bold]{}[/] — {}".format(tk, q.replace("_", " ")))
-            ans = console.input("  > ").strip().lower()
-            if ans == "x":
-                break
-            if ans in TRUTH_VERDICTS:
-                truth[tk][q] = ans
-                _save(TRUTH, truth)
+    if not pending:
+        console.print("[green]truth set already complete[/]")
+        return 0
+
+    console.print("\n[bold]Did the filing answer this at all?[/]  [dim]({} left)[/]".format(
+        len(pending)))
+    console.print("[dim]This is about the FILING, not the model — it is reused for every[/]")
+    console.print("[dim]model you test. disclosed / absent, s=skip, x=stop[/]\n")
+    for tk, q in pending:
+        console.print("  [bold]{}[/] — {}".format(tk, q.replace("_", " ")))
+        ans = console.input("  [cyan]disclosed / absent >[/] ").strip().lower()
+        if ans == "x":
+            break
+        if ans.startswith("d"):
+            truth[tk][q] = "disclosed"
+            _save(TRUTH, truth)
+        elif ans.startswith("a"):
+            truth[tk][q] = "absent"
+            _save(TRUTH, truth)
     console.print("\n[green]saved[/]  ->  python run_eval.py score")
     return 0
 
@@ -200,7 +229,7 @@ def score(model):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("mode", choices=["build", "label", "score"])
+    ap.add_argument("mode", choices=["build", "label", "truth", "score"])
     ap.add_argument("--model", default=reader.CHAT_MODEL)
     ap.add_argument("--host", default=None)
     ap.add_argument("--fixtures", default=str(EVALS / "fixtures.txt"))
@@ -212,6 +241,8 @@ def main():
         return build([t for t in tickers if t], args.model, args.host) or 0
     if args.mode == "label":
         return label(args.model)
+    if args.mode == "truth":
+        return label_truth()
     return score(args.model)
 
 
