@@ -51,7 +51,7 @@ Applied before any scoring:
 
 ## Milestones
 
-- [ ] **M1** EDGAR -> 10-year ROIC table, 20 tickers, printed to terminal
+- [x] **M1** EDGAR -> 10-year ROIC table, 20 tickers, printed to terminal
 - [ ] **M2** Full gate + composite rank, SQLite snapshot each run
 - [ ] **M3** 200-week MA trigger + Telegram digest, scheduled on aviato
 - [ ] **M4** LLM reads the 10-K for what arithmetic can't answer, with citations
