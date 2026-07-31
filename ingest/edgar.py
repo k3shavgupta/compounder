@@ -92,3 +92,44 @@ class Edgar:
 
     def facts(self, cik):
         return self._get(COMPANY_FACTS.format(cik=cik), "facts_" + cik, max_age=86400)
+
+    def latest_10k(self, cik):
+        """URL and date of the most recent 10-K, or None."""
+        data = self._get(SUBMISSIONS.format(cik=cik), "sub_" + cik, max_age=86400)
+        if not data:
+            return None
+        recent = data.get("filings", {}).get("recent", {})
+        for i, form in enumerate(recent.get("form", [])):
+            if form != "10-K":
+                continue
+            acc = recent["accessionNumber"][i].replace("-", "")
+            doc = recent["primaryDocument"][i]
+            # int() strips the zero-padding; the Archives path uses the bare CIK.
+            return {
+                "url": "https://www.sec.gov/Archives/edgar/data/{}/{}/{}".format(
+                    int(cik), acc, doc
+                ),
+                "date": recent["filingDate"][i],
+                "accession": recent["accessionNumber"][i],
+            }
+        return None
+
+    def raw(self, url, key):
+        """Fetch and cache a document body. Filings are immutable once filed,
+        so the cache never needs invalidating."""
+        path = CACHE / (key + ".txt.gz")
+        if path.exists():
+            with gzip.open(path, "rt", encoding="utf-8") as fh:
+                return fh.read()
+
+        wait = self.interval - (time.time() - self._last)
+        if wait > 0:
+            time.sleep(wait)
+        resp = self.session.get(url, timeout=120)
+        self._last = time.time()
+        resp.raise_for_status()
+        text = resp.text
+
+        with gzip.open(path, "wt", encoding="utf-8") as fh:
+            fh.write(text)
+        return text

@@ -53,8 +53,8 @@ Applied before any scoring:
 
 - [x] **M1** EDGAR -> 10-year ROIC table, 20 tickers, printed to terminal
 - [ ] **M2** Full gate + composite rank, SQLite snapshot each run
-- [x] **M3** 200-week MA trigger + Telegram digest, scheduled on aviato
-- [ ] **M4** LLM reads the 10-K for what arithmetic can't answer, with citations
+- [ ] **M3** 200-week MA trigger + Telegram digest, scheduled on aviato
+- [x] **M4** LLM reads the 10-K for what arithmetic can't answer, with citations
 - [ ] **M5** Eval harness against hand-labelled filings
 - [ ] **M6** India via Nifty 500
 
