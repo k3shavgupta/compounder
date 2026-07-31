@@ -18,9 +18,6 @@ The first filter in that thread, which the author attributes to Charlie Munger:
 > that line is usually fear or a macro scare. Above it, you are often paying for
 > perfection.
 
-*(Attribution as given in the thread — I have not independently sourced the
-quote to Munger.)*
-
 The thread ends by saying most people will agree with all of it and change
 nothing. This repository is the attempt to not do that: turn the checklist into
 something that runs on a schedule and can be checked.
