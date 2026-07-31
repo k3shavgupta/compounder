@@ -31,7 +31,44 @@ PRETAX = [
 INTEREST = ["InterestExpense", "InterestExpenseNonoperating", "InterestIncomeExpenseNet"]
 TAX = ["IncomeTaxExpenseBenefit"]
 
+NET_INCOME = ["NetIncomeLoss"]
+CFO = [
+    "NetCashProvidedByUsedInOperatingActivities",
+    "NetCashProvidedByUsedInOperatingActivitiesContinuingOperations",
+]
+CAPEX = ["PaymentsToAcquirePropertyPlantAndEquipment", "PaymentsToAcquireProductiveAssets"]
+DEPRECIATION = [
+    "DepreciationDepletionAndAmortization",
+    "DepreciationAmortizationAndAccretionNet",
+    "DepreciationAndAmortization",
+    "Depreciation",
+]
+# Diluted rather than basic: options and RSUs are real dilution, and the whole
+# point of rule 8 is to catch companies quietly issuing stock to themselves.
+# McDonald's files a literal 0 for the diluted tag from FY2021, so the chain
+# needs somewhere to fall back to — and _series drops non-positive values.
+SHARES = [
+    "WeightedAverageNumberOfDilutedSharesOutstanding",
+    "WeightedAverageNumberOfSharesOutstandingBasic",
+    "WeightedAverageNumberOfDilutedSharesOutstandingBasicAndDiluted",
+    "CommonStockSharesOutstanding",
+]
+
+# Clean split ratios, forward and reverse. A genuine issuance rarely lands
+# within 3% of one of these, so the test is specific enough to leave real
+# dilution alone.
+SPLIT_RATIOS = [2.0, 3.0, 4.0, 5.0, 10.0, 1.5, 2.5]
+
+# Unit changes, handled by the same machinery. McDonald's reports 750,100,000
+# diluted shares through FY2020 and then 751.8 from FY2021 — switching to
+# millions while still declaring the unit as "shares". Nothing in the XBRL
+# metadata reveals it; only the 10^6 discontinuity does.
+SCALE_RATIOS = [1e3, 1e6, 1e9]
+
+SPLIT_TOLERANCE = 0.03
+
 ASSETS = ["Assets"]
+LONG_DEBT = ["LongTermDebtNoncurrent", "LongTermDebt"]
 # Two ways filers report the same thing. CASH_PLUS_INVEST is already inclusive,
 # so it must never be combined with SHORT_INVEST or the investments come off
 # the balance sheet twice.
@@ -89,6 +126,38 @@ def _series(facts, tags, instant, per_year=False):
     return out
 
 
+def _split_adjust(shares):
+    """Rescale a share-count series so it survives stock splits.
+
+    XBRL reports share counts as filed. A company that splits 4-for-1 restates
+    only the two or three comparative years inside its next filing, so a decade
+    of history contains a hard discontinuity: Cintas jumps 106m to 414m in
+    FY2023 and reads as +283% dilution. Walking forward and rescaling everything
+    before each split makes the series continuous.
+
+    Only near-clean ratios count as splits. A company that genuinely issued 40%
+    more stock is not close enough to 1.5x to be normalised away - which matters,
+    because that would silently erase exactly the failure rule 8 exists to catch.
+    """
+    days = sorted(shares)
+    out = dict(shares)
+    for i in range(1, len(days)):
+        prev, cur = out[days[i - 1]], out[days[i]]
+        if prev <= 0 or cur <= 0:
+            continue
+        ratio = cur / prev
+        for clean in SPLIT_RATIOS + SCALE_RATIOS:
+            for candidate in (clean, 1 / clean):
+                if abs(ratio - candidate) / candidate < SPLIT_TOLERANCE:
+                    for d in days[:i]:
+                        out[d] *= candidate
+                    break
+            else:
+                continue
+            break
+    return out
+
+
 def _effective_tax_rate(tax, pretax):
     """Clamped to 0-45%. Loss years and one-off settlements produce rates like
     -300% or 1200%, which would swamp NOPAT if passed through."""
@@ -105,12 +174,22 @@ def series(facts):
     interest = _series(facts, INTEREST, instant=False)
     tax = _series(facts, TAX, instant=False)
 
+    net_income = _series(facts, NET_INCOME, instant=False)
+    cfo = _series(facts, CFO, instant=False)
+    capex = _series(facts, CAPEX, instant=False)
+    depreciation = _series(facts, DEPRECIATION, instant=False)
+    # Drop non-positive counts before anything else — a zero share count is
+    # never real, and it would otherwise anchor the split detector.
+    shares = {k: v for k, v in _series(facts, SHARES, instant=False).items() if v > 0}
+    shares = _split_adjust(shares)
+
     assets = _series(facts, ASSETS, instant=True)
     combined = _series(facts, CASH_PLUS_INVEST, instant=True)
     cash = _series(facts, CASH, instant=True)
     sti = _series(facts, SHORT_INVEST, instant=True, per_year=True)
     cur_liab = _series(facts, CURRENT_LIAB, instant=True)
     st_debt = _series(facts, SHORT_DEBT, instant=True)
+    lt_debt = _series(facts, LONG_DEBT, instant=True)
 
     def cash_like(day):
         """The inclusive tag wins outright where present; otherwise add the parts."""
@@ -147,6 +226,17 @@ def series(facts):
         # Ending-only inflates ROIC for anyone who grew during the year.
         ic_avg = (ic_end + ic_start) / 2 if ic_start else ic_end
 
+        # Capex is reported as a positive outflow, so subtract its magnitude —
+        # a few filers sign it negative and abs() keeps both conventions honest.
+        fcf = None
+        if day in cfo:
+            fcf = cfo[day] - abs(capex.get(day, 0.0))
+
+        ebitda = op + depreciation[day] if day in depreciation else None
+        net_debt = None
+        if day in lt_debt or day in st_debt:
+            net_debt = lt_debt.get(day, 0.0) + st_debt.get(day, 0.0) - cash_like(day)
+
         out.append(
             {
                 "year": int(day[:4]),
@@ -155,6 +245,12 @@ def series(facts):
                 "nopat": nopat,
                 "ic": ic_avg,
                 "roic": nopat / ic_avg,
+                "fcf": fcf,
+                "net_income": net_income.get(day),
+                "ebitda": ebitda,
+                "net_debt": net_debt,
+                "interest": interest.get(day),
+                "shares": shares.get(day),
             }
         )
     return out

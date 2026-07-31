@@ -6,3 +6,4 @@ data/cache/
 data/*.db
 data/*.db-journal
 .DS_Store
+sync.sh
