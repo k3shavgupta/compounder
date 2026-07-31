@@ -23,6 +23,9 @@ import requests
 
 from ingest.filings import normalise
 
+# Point OLLAMA_HOST at whatever machine runs the models. It does not have to be
+# the machine running this code — mine is a separate box on a Tailscale network,
+# because the GPU and the always-on server are not the same computer.
 DEFAULT_HOST = os.getenv("OLLAMA_HOST", "http://127.0.0.1:11434")
 EMBED_MODEL = os.getenv("EMBED_MODEL", "nomic-embed-text")
 CHAT_MODEL = os.getenv("CHAT_MODEL", "qwen2.5:7b")
