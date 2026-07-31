@@ -64,7 +64,7 @@
       "question": "customer_concentration",
       "claim": "No single customers accounted for 10% or more of net revenue.",
       "quote": "For all periods presented, there were no customers that represented at least 10% of net revenue or that were responsible for over 10% of our trade receivables.",
-      "verdict": ""
+      "verdict": "ok"
     },
     {
       "id": "ADBE/debt_maturity/0",
