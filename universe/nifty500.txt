@@ -1,0 +1,358 @@
+# Nifty 500, financials / realty / power / fuels and holding companies removed.
+# 354 kept, 146 dropped. Regenerate with fetch_nifty500.py
+# Tickers carry the .NS suffix for Yahoo; strip it for Screener.in.
+
+3MINDIA.NS      # Diversified
+AARTIIND.NS     # Chemicals
+ABB.NS          # Capital Goods
+ABBOTINDIA.NS   # Healthcare
+ABDL.NS         # Fast Moving Consumer Goods
+ABFRL.NS        # Consumer Services
+ABLBL.NS        # Consumer Services
+ACC.NS          # Construction Materials
+ACE.NS          # Capital Goods
+ACUTAAS.NS      # Healthcare
+ADANIENT.NS     # Metals & Mining
+ADANIPORTS.NS   # Services
+AFCONS.NS       # Construction
+AFFLE.NS        # Information Technology
+AIAENG.NS       # Capital Goods
+AJANTPHARM.NS   # Healthcare
+ALKEM.NS        # Healthcare
+AMBER.NS        # Consumer Durables
+AMBUJACEM.NS    # Construction Materials
+ANTHEM.NS       # Healthcare
+ANURAS.NS       # Chemicals
+APARINDS.NS     # Capital Goods
+APLAPOLLO.NS    # Capital Goods
+APOLLOHOSP.NS   # Healthcare
+APOLLOTYRE.NS   # Automobile and Auto Components
+ARE&M.NS        # Automobile and Auto Components
+ASAHIINDIA.NS   # Automobile and Auto Components
+ASHOKLEY.NS     # Capital Goods
+ASIANPAINT.NS   # Consumer Durables
+ASTERDM.NS      # Healthcare
+ASTRAL.NS       # Capital Goods
+ATHERENERG.NS   # Automobile and Auto Components
+ATUL.NS         # Chemicals
+AUROPHARMA.NS   # Healthcare
+AWL.NS          # Fast Moving Consumer Goods
+BAJAJ-AUTO.NS   # Automobile and Auto Components
+BALKRISIND.NS   # Automobile and Auto Components
+BALRAMCHIN.NS   # Fast Moving Consumer Goods
+BATAINDIA.NS    # Consumer Durables
+BAYERCROP.NS    # Chemicals
+BBTC.NS         # Fast Moving Consumer Goods
+BDL.NS          # Capital Goods
+BEL.NS          # Capital Goods
+BELRISE.NS      # Automobile and Auto Components
+BEML.NS         # Capital Goods
+BERGEPAINT.NS   # Consumer Durables
+BHARATFORG.NS   # Automobile and Auto Components
+BHARTIARTL.NS   # Telecommunication
+BHARTIHEXA.NS   # Telecommunication
+BHEL.NS         # Capital Goods
+BIKAJI.NS       # Fast Moving Consumer Goods
+BIOCON.NS       # Healthcare
+BLS.NS          # Consumer Services
+BLUEDART.NS     # Services
+BLUEJET.NS      # Healthcare
+BLUESTARCO.NS   # Consumer Durables
+BOSCHLTD.NS     # Automobile and Auto Components
+BRITANNIA.NS    # Fast Moving Consumer Goods
+BSOFT.NS        # Information Technology
+CAPLIPOINT.NS   # Healthcare
+CARBORUNIV.NS   # Capital Goods
+CARTRADE.NS     # Consumer Services
+CCL.NS          # Fast Moving Consumer Goods
+CEATLTD.NS      # Automobile and Auto Components
+CEMPRO.NS       # Construction
+CGPOWER.NS      # Capital Goods
+CHALET.NS       # Consumer Services
+CHAMBLFERT.NS   # Chemicals
+CIEINDIA.NS     # Automobile and Auto Components
+CIPLA.NS        # Healthcare
+CLEAN.NS        # Chemicals
+COCHINSHIP.NS   # Capital Goods
+COFORGE.NS      # Information Technology
+COHANCE.NS      # Healthcare
+COLPAL.NS       # Fast Moving Consumer Goods
+CONCOR.NS       # Services
+CONCORDBIO.NS   # Healthcare
+COROMANDEL.NS   # Chemicals
+CPPLUS.NS       # Capital Goods
+CRAFTSMAN.NS    # Automobile and Auto Components
+CROMPTON.NS     # Consumer Durables
+CUMMINSIND.NS   # Capital Goods
+CYIENT.NS       # Information Technology
+DABUR.NS        # Fast Moving Consumer Goods
+DALBHARAT.NS    # Construction Materials
+DATAPATTNS.NS   # Capital Goods
+DCMSHRIRAM.NS   # Diversified
+DEEPAKFERT.NS   # Chemicals
+DEEPAKNTR.NS    # Chemicals
+DELHIVERY.NS    # Services
+DEVYANI.NS      # Consumer Services
+DIVISLAB.NS     # Healthcare
+DIXON.NS        # Consumer Durables
+DMART.NS        # Consumer Services
+DOMS.NS         # Fast Moving Consumer Goods
+DRREDDY.NS      # Healthcare
+ECLERX.NS       # Services
+EICHERMOT.NS    # Automobile and Auto Components
+EIDPARRY.NS     # Fast Moving Consumer Goods
+EIHOTEL.NS      # Consumer Services
+ELECON.NS       # Capital Goods
+ELGIEQUIP.NS    # Capital Goods
+EMAMILTD.NS     # Fast Moving Consumer Goods
+EMCURE.NS       # Healthcare
+EMMVEE.NS       # Capital Goods
+ENDURANCE.NS    # Automobile and Auto Components
+ENGINERSIN.NS   # Construction
+ENRIN.NS        # Capital Goods
+ERIS.NS         # Healthcare
+ESCORTS.NS      # Capital Goods
+ETERNAL.NS      # Consumer Services
+EXIDEIND.NS     # Automobile and Auto Components
+FACT.NS         # Chemicals
+FINCABLES.NS    # Capital Goods
+FIRSTCRY.NS     # Consumer Services
+FLUOROCHEM.NS   # Chemicals
+FORCEMOT.NS     # Automobile and Auto Components
+FORTIS.NS       # Healthcare
+FSL.NS          # Services
+GABRIEL.NS      # Automobile and Auto Components
+GALLANTT.NS     # Capital Goods
+GESHIP.NS       # Services
+GILLETTE.NS     # Fast Moving Consumer Goods
+GLAND.NS        # Healthcare
+GLAXO.NS        # Healthcare
+GLENMARK.NS     # Healthcare
+GMDCLTD.NS      # Metals & Mining
+GMRAIRPORT.NS   # Services
+GODFRYPHLP.NS   # Fast Moving Consumer Goods
+GODREJCP.NS     # Fast Moving Consumer Goods
+GODREJIND.NS    # Diversified
+GPIL.NS         # Capital Goods
+GRANULES.NS     # Healthcare
+GRAPHITE.NS     # Capital Goods
+GRASIM.NS       # Construction Materials
+GRAVITA.NS      # Metals & Mining
+GRSE.NS         # Capital Goods
+GVT&D.NS        # Capital Goods
+HAL.NS          # Capital Goods
+HAVELLS.NS      # Consumer Durables
+HBLENGINE.NS    # Capital Goods
+HCLTECH.NS      # Information Technology
+HEG.NS          # Capital Goods
+HEROMOTOCO.NS   # Automobile and Auto Components
+HEXT.NS         # Information Technology
+HFCL.NS         # Telecommunication
+HINDALCO.NS     # Metals & Mining
+HINDCOPPER.NS   # Metals & Mining
+HINDUNILVR.NS   # Fast Moving Consumer Goods
+HINDZINC.NS     # Metals & Mining
+HONASA.NS       # Fast Moving Consumer Goods
+HONAUT.NS       # Capital Goods
+HSCL.NS         # Chemicals
+HYUNDAI.NS      # Automobile and Auto Components
+IDEA.NS         # Telecommunication
+IGIL.NS         # Services
+IKS.NS          # Information Technology
+INDGN.NS        # Healthcare
+INDHOTEL.NS     # Consumer Services
+INDIACEM.NS     # Construction Materials
+INDIAMART.NS    # Consumer Services
+INDIGO.NS       # Services
+INDUSTOWER.NS   # Telecommunication
+INFY.NS         # Information Technology
+INOXWIND.NS     # Capital Goods
+INTELLECT.NS    # Information Technology
+IPCALAB.NS      # Healthcare
+IRB.NS          # Construction
+IRCON.NS        # Construction
+IRCTC.NS        # Consumer Services
+ITC.NS          # Fast Moving Consumer Goods
+ITCHOTELS.NS    # Consumer Services
+ITI.NS          # Telecommunication
+JAINREC.NS      # Metals & Mining
+JBMA.NS         # Automobile and Auto Components
+JINDALSAW.NS    # Capital Goods
+JINDALSTEL.NS   # Metals & Mining
+JKCEMENT.NS     # Construction Materials
+JKTYRE.NS       # Automobile and Auto Components
+JSL.NS          # Metals & Mining
+JSWCEMENT.NS    # Construction Materials
+JSWDULUX.NS     # Consumer Durables
+JSWINFRA.NS     # Services
+JSWSTEEL.NS     # Metals & Mining
+JUBLFOOD.NS     # Consumer Services
+JUBLINGREA.NS   # Chemicals
+JUBLPHARMA.NS   # Healthcare
+JWL.NS          # Capital Goods
+JYOTICNC.NS     # Capital Goods
+KAJARIACER.NS   # Consumer Durables
+KALYANKJIL.NS   # Consumer Durables
+KAYNES.NS       # Capital Goods
+KEC.NS          # Construction
+KEI.NS          # Capital Goods
+KIMS.NS         # Healthcare
+KIRLOSENG.NS    # Capital Goods
+KPIL.NS         # Construction
+KPITTECH.NS     # Information Technology
+KPRMILL.NS      # Textiles
+LALPATHLAB.NS   # Healthcare
+LATENTVIEW.NS   # Information Technology
+LAURUSLABS.NS   # Healthcare
+LEMONTREE.NS    # Consumer Services
+LENSKART.NS     # Consumer Services
+LGEINDIA.NS     # Consumer Durables
+LINDEINDIA.NS   # Chemicals
+LLOYDSME.NS     # Metals & Mining
+LT.NS           # Construction
+LTFOODS.NS      # Fast Moving Consumer Goods
+LTM.NS          # Information Technology
+LTTS.NS         # Information Technology
+LUPIN.NS        # Healthcare
+M&M.NS          # Automobile and Auto Components
+MANKIND.NS      # Healthcare
+MAPMYINDIA.NS   # Information Technology
+MARICO.NS       # Fast Moving Consumer Goods
+MARUTI.NS       # Automobile and Auto Components
+MAXHEALTH.NS    # Healthcare
+MAZDOCK.NS      # Capital Goods
+MEDANTA.NS      # Healthcare
+MEESHO.NS       # Consumer Services
+MINDACORP.NS    # Automobile and Auto Components
+MMTC.NS         # Services
+MOTHERSON.NS    # Automobile and Auto Components
+MPHASIS.NS      # Information Technology
+MRF.NS          # Automobile and Auto Components
+MSUMI.NS        # Automobile and Auto Components
+NATCOPHARM.NS   # Healthcare
+NATIONALUM.NS   # Metals & Mining
+NAUKRI.NS       # Consumer Services
+NAVINFLUOR.NS   # Chemicals
+NBCC.NS         # Construction
+NCC.NS          # Construction
+NESTLEIND.NS    # Fast Moving Consumer Goods
+NETWEB.NS       # Information Technology
+NEULANDLAB.NS   # Healthcare
+NEWGEN.NS       # Information Technology
+NH.NS           # Healthcare
+NMDC.NS         # Metals & Mining
+NSLNISP.NS      # Metals & Mining
+NUVOCO.NS       # Construction Materials
+NYKAA.NS        # Consumer Services
+OFSS.NS         # Information Technology
+OLAELEC.NS      # Automobile and Auto Components
+OLECTRA.NS      # Automobile and Auto Components
+ONESOURCE.NS    # Healthcare
+PAGEIND.NS      # Textiles
+PARADEEP.NS     # Chemicals
+PATANJALI.NS    # Fast Moving Consumer Goods
+PCBL.NS         # Chemicals
+PERSISTENT.NS   # Information Technology
+PFIZER.NS       # Healthcare
+PFOCUS.NS       # Media Entertainment & Publication
+PGEL.NS         # Consumer Durables
+PIDILITIND.NS   # Chemicals
+PIIND.NS        # Chemicals
+POLYCAB.NS      # Capital Goods
+POLYMED.NS      # Healthcare
+POWERINDIA.NS   # Capital Goods
+PPLPHARMA.NS    # Healthcare
+PREMIERENE.NS   # Capital Goods
+PTCIL.NS        # Capital Goods
+PVRINOX.NS      # Media Entertainment & Publication
+PWL.NS          # Consumer Services
+RADICO.NS       # Fast Moving Consumer Goods
+RAILTEL.NS      # Telecommunication
+RAINBOW.NS      # Healthcare
+RAMCOCEM.NS     # Construction Materials
+REDINGTON.NS    # Services
+RHIM.NS         # Capital Goods
+RITES.NS        # Construction
+RKFORGE.NS      # Automobile and Auto Components
+RRKABEL.NS      # Capital Goods
+RVNL.NS         # Construction
+SAGILITY.NS     # Information Technology
+SAIL.NS         # Metals & Mining
+SAILIFE.NS      # Healthcare
+SAPPHIRE.NS     # Consumer Services
+SARDAEN.NS      # Metals & Mining
+SAREGAMA.NS     # Media Entertainment & Publication
+SCHAEFFLER.NS   # Automobile and Auto Components
+SCHNEIDER.NS    # Capital Goods
+SCI.NS          # Services
+SHREECEM.NS     # Construction Materials
+SHYAMMETL.NS    # Capital Goods
+SIEMENS.NS      # Capital Goods
+SOLARINDS.NS    # Chemicals
+SONACOMS.NS     # Automobile and Auto Components
+SONATSOFTW.NS   # Information Technology
+SPLPETRO.NS     # Chemicals
+SRF.NS          # Chemicals
+SUMICHEM.NS     # Chemicals
+SUNPHARMA.NS    # Healthcare
+SUNTV.NS        # Media Entertainment & Publication
+SUPREMEIND.NS   # Capital Goods
+SUZLON.NS       # Capital Goods
+SWANCORP.NS     # Chemicals
+SWIGGY.NS       # Consumer Services
+SYNGENE.NS      # Healthcare
+SYRMA.NS        # Capital Goods
+TARIL.NS        # Capital Goods
+TATACHEM.NS     # Chemicals
+TATACOMM.NS     # Telecommunication
+TATACONSUM.NS   # Fast Moving Consumer Goods
+TATAELXSI.NS    # Information Technology
+TATASTEEL.NS    # Metals & Mining
+TATATECH.NS     # Information Technology
+TBOTEK.NS       # Consumer Services
+TCS.NS          # Information Technology
+TECHM.NS        # Information Technology
+TECHNOE.NS      # Construction
+TEGA.NS         # Capital Goods
+TEJASNET.NS     # Telecommunication
+TENNIND.NS      # Automobile and Auto Components
+THELEELA.NS     # Consumer Services
+THERMAX.NS      # Capital Goods
+TIINDIA.NS      # Automobile and Auto Components
+TIMKEN.NS       # Capital Goods
+TITAGARH.NS     # Capital Goods
+TITAN.NS        # Consumer Durables
+TMCV.NS         # Capital Goods
+TMPV.NS         # Automobile and Auto Components
+TORNTPHARM.NS   # Healthcare
+TRAVELFOOD.NS   # Consumer Services
+TRENT.NS        # Consumer Services
+TRIDENT.NS      # Textiles
+TRITURBINE.NS   # Capital Goods
+TTML.NS         # Telecommunication
+TVSMOTOR.NS     # Automobile and Auto Components
+UBL.NS          # Fast Moving Consumer Goods
+ULTRACEMCO.NS   # Construction Materials
+UNITDSPR.NS     # Fast Moving Consumer Goods
+UNOMINDA.NS     # Automobile and Auto Components
+UPL.NS          # Chemicals
+URBANCO.NS      # Consumer Services
+USHAMART.NS     # Capital Goods
+VBL.NS          # Fast Moving Consumer Goods
+VEDL.NS         # Metals & Mining
+VIJAYA.NS       # Healthcare
+VMM.NS          # Consumer Services
+VOLTAS.NS       # Consumer Durables
+VTL.NS          # Textiles
+WAAREEENER.NS   # Capital Goods
+WELCORP.NS      # Capital Goods
+WELSPUNLIV.NS   # Textiles
+WHIRLPOOL.NS    # Consumer Durables
+WIPRO.NS        # Information Technology
+WOCKPHARMA.NS   # Healthcare
+ZEEL.NS         # Media Entertainment & Publication
+ZENSARTECH.NS   # Information Technology
+ZENTEC.NS       # Capital Goods
+ZFCVINDIA.NS    # Automobile and Auto Components
+ZYDUSLIFE.NS    # Healthcare
+ZYDUSWELL.NS    # Fast Moving Consumer Goods

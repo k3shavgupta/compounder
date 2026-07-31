@@ -1,0 +1,31 @@
+# India quality list — the durability half of the gate, maintained by hand.
+#
+# WHY THIS IS MANUAL
+# yfinance serves 4 years of Indian financials. Rules 2, 3 and 8 need 10, 6 and
+# 6 years respectively, so they cannot be computed — and those are the rules
+# doing most of the work in the US gate (69% and 31% kill rates). A 4-year
+# automated gate would look like the US one and mean something much weaker, so
+# the durability half stays human until better data exists.
+#
+# HOW TO REFRESH (quarterly is plenty — fundamentals move four times a year)
+# Paste this into the query box at screener.in/screen/new/ and copy the symbols
+# that come back into the list below.
+#
+#   Market Capitalization > 5000 AND
+#   Return on capital employed > 15 AND
+#   Average return on capital employed 5Years > 15 AND
+#   Debt to equity < 0.5 AND
+#   Interest Coverage Ratio > 5 AND
+#   Promoter holding > 40 AND
+#   Pledged percentage < 5
+#
+# Screener uses ROCE (pre-tax) where this project uses ROIC (post-tax). Close
+# enough as a first pass; it flatters companies with low effective tax rates.
+#
+# Promoter holding and pledge have no US equivalent and are worth keeping — a
+# mandated quarterly disclosure, and pledged promoter stock is one of the
+# cheapest distress signals available anywhere.
+#
+# One ticker per line, .NS suffix, comments after #.
+
+# --- paste results below this line ---
