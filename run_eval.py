@@ -71,17 +71,24 @@ def build(tickers, model, host):
     # same quote against the same question is the same judgement, so re-asking
     # for it wastes the one resource this harness actually runs on. Anything
     # that changed is left blank and must be judged fresh.
+    # Search every archived run, not just the last one. A build that produces
+    # different quotes (a prompt experiment, say) otherwise orphans the verdicts
+    # behind it, and the next build asks for them again. Later files win.
     previous = _load(labels_path(model), {}) or {}
-    prior = {
-        (i["ticker"], i["question"], i["quote"]): i
-        for i in previous.get("items", []) if i.get("verdict")
-    }
+    prior = {}
+    sources = sorted(EVALS.glob("labels-*.json"), key=lambda f: f.stat().st_mtime)
+    for f in sources:
+        for i in (_load(f, {}) or {}).get("items", []):
+            if i.get("verdict"):
+                prior[(i["ticker"], i["question"], i["quote"])] = i
     if previous.get("items"):
         archive = labels_path(model).with_name(
             labels_path(model).stem + "-" + previous.get("built", "prev") + ".json")
         if not archive.exists():
             _save(archive, previous)
             console.print("[dim]archived previous run -> {}[/]".format(archive.name))
+    console.print("[dim]{} verdicts available to carry from {} file(s)[/]".format(
+        len(prior), len(sources)))
 
     for tk in tickers:
         cik = edgar.cik_for(tk)
