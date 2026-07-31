@@ -1,7 +1,7 @@
 {
   "ANET": {
     "customer_concentration": "disclosed",
-    "debt_maturity": "",
+    "debt_maturity": "absent",
     "competition": "disclosed",
     "key_risks": "disclosed"
   },
