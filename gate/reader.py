@@ -41,13 +41,20 @@ KEEP_ALIVE = "30m"
 QUESTIONS = [
     {
         "key": "customer_concentration",
+        "terms": ["10% of", "significant customers", "no customers", "accounted for more than", "of our total revenue"],
         "ask": "Do any single customers account for 10% or more of revenue? "
                "If so, name them and give the percentages.",
-        "probe": "customer concentration major customers percentage of net revenue "
-                 "one customer accounted for revenues",
+        # Both polarities. A probe written only for positive disclosures missed
+        # every "no customer represented 10% of net revenue" note in the eval —
+        # three of six misses — because an affirmative absence embeds nowhere
+        # near "one customer accounted for 21% of revenue".
+        "probe": "significant customers concentration one customer accounted for "
+                 "10% of net revenue; no customers represented at least 10% of "
+                 "net revenue or trade receivables",
     },
     {
         "key": "debt_maturity",
+        "terms": ["maturities of long-term debt", "senior notes due", "matures", "principal payments", "due and payable"],
         "ask": "When does the company's debt mature? Give the schedule of "
                "principal repayments by year if one is disclosed.",
         "probe": "aggregate maturities of long-term debt principal payments due "
@@ -55,6 +62,7 @@ QUESTIONS = [
     },
     {
         "key": "competition",
+        "terms": ["we compete", "our competitors", "competitive advantage", "highly competitive"],
         "ask": "Who does the company say it competes with, and what does it "
                "claim as its competitive advantages?",
         "probe": "competition competitors we compete principally on the basis of "
@@ -62,6 +70,7 @@ QUESTIONS = [
     },
     {
         "key": "key_risks",
+        "terms": ["materially adversely affect", "could harm our business", "we may be unable", "risk factors"],
         "ask": "What are the most significant risks disclosed that could "
                "permanently impair this business?",
         "probe": "risk factors could materially adversely affect our business "
@@ -104,10 +113,41 @@ def _cosine(a, b):
     return dot / (na * nb) if na and nb else 0.0
 
 
-def rank(question_vec, chunk_vecs, k=TOP_K):
-    scored = [(_cosine(question_vec, v), i) for i, v in enumerate(chunk_vecs)]
-    scored.sort(reverse=True)
-    return [i for _, i in scored[:k]]
+def rank(question_vec, chunk_vecs, k=TOP_K, chunks=None, terms=None):
+    """Hybrid retrieval: keyword hits first, then embedding similarity.
+
+    Pure dense retrieval is good at meaning and bad at exact strings. Adobe's
+    "no customers that represented at least 10% of net revenue" ranked 35th of
+    291 against a well-tuned probe, because the disclosure turns on the literal
+    token "10%" and embeddings do not privilege it.
+
+    Chunks matching a question's literal terms are seeded into the result, then
+    the remaining slots are filled by cosine rank. Keyword search alone would be
+    brittle in the other direction — hence both.
+    """
+    dense = [i for _, i in sorted(
+        ((_cosine(question_vec, v), i) for i, v in enumerate(chunk_vecs)), reverse=True)]
+
+    if not (chunks and terms):
+        return dense[:k]
+
+    hits = []
+    for i, c in enumerate(chunks):
+        low = c.lower()
+        n = sum(1 for t in terms if t in low)
+        if n:
+            hits.append((n, -dense.index(i), i))
+    hits.sort(reverse=True)
+
+    # Reserve at most half the budget for keyword matches so a term that appears
+    # everywhere cannot crowd out semantic relevance entirely.
+    picked = [i for _, _, i in hits[: max(1, k // 2)]]
+    for i in dense:
+        if len(picked) >= k:
+            break
+        if i not in picked:
+            picked.append(i)
+    return picked
 
 
 def ask(question, excerpts, host=None, model=None):

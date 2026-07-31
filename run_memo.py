@@ -59,7 +59,7 @@ def main():
     total_found = total_rejected = 0
     for q in reader.QUESTIONS:
         qvec = reader.embed([q["probe"]], host=args.host)[0]
-        idx = reader.rank(qvec, vecs, k=args.top_k)
+        idx = reader.rank(qvec, vecs, k=args.top_k, chunks=chunks, terms=q.get("terms"))
         excerpts = [chunks[i] for i in idx]
 
         with console.status("[dim]{}...[/]".format(q["key"])):

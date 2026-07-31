@@ -82,7 +82,7 @@ def build(tickers, model, host):
         truth.setdefault(tk, {})
         for q in reader.QUESTIONS:
             qvec = reader.embed([q["probe"]], host=host)[0]
-            excerpts = [chunks[i] for i in reader.rank(qvec, vecs)]
+            excerpts = [chunks[i] for i in reader.rank(qvec, vecs, chunks=chunks, terms=q.get("terms"))]
             answer = reader.ask(q["ask"], excerpts, host=host, model=model)
             found, dropped = reader.verify(answer, text)
 

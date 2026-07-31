@@ -1,32 +1,32 @@
 {
   "ANET": {
-    "customer_concentration": "",
+    "customer_concentration": "disclosed",
     "debt_maturity": "",
-    "competition": "",
-    "key_risks": ""
+    "competition": "disclosed",
+    "key_risks": "disclosed"
   },
   "ADBE": {
-    "customer_concentration": "",
-    "debt_maturity": "",
-    "competition": "",
-    "key_risks": ""
+    "customer_concentration": "disclosed",
+    "debt_maturity": "disclosed",
+    "competition": "disclosed",
+    "key_risks": "disclosed"
   },
   "TTD": {
-    "customer_concentration": "",
-    "debt_maturity": "",
-    "competition": "",
-    "key_risks": ""
+    "customer_concentration": "disclosed",
+    "debt_maturity": "disclosed",
+    "competition": "disclosed",
+    "key_risks": "disclosed"
   },
   "LULU": {
-    "customer_concentration": "",
-    "debt_maturity": "",
-    "competition": "",
-    "key_risks": ""
+    "customer_concentration": "disclosed",
+    "debt_maturity": "disclosed",
+    "competition": "disclosed",
+    "key_risks": "disclosed"
   },
   "COST": {
-    "customer_concentration": "",
-    "debt_maturity": "",
-    "competition": "",
-    "key_risks": ""
+    "customer_concentration": "absent",
+    "debt_maturity": "disclosed",
+    "competition": "disclosed",
+    "key_risks": "disclosed"
   }
 }

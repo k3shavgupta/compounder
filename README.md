@@ -55,7 +55,7 @@ Applied before any scoring:
 - [ ] **M2** Full gate + composite rank, SQLite snapshot each run
 - [ ] **M3** 200-week MA trigger + Telegram digest, scheduled on aviato
 - [ ] **M4** LLM reads the 10-K for what arithmetic can't answer, with citations
-- [x] **M5** Eval harness against hand-labelled filings
+- [ ] **M5** Eval harness against hand-labelled filings
 - [ ] **M6** India via Nifty 500
 
 M1-M3 is a working tool. M4-M5 is the part worth showing someone.
