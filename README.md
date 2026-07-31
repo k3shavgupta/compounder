@@ -62,6 +62,15 @@ bad business. Rule 5 is the best cheap fraud detector on the list: sustained
 profits that never turn into cash is the most common shape of an accounting
 blow-up.
 
+Rules 6 and 7 are the ones that are never traded away for a better number
+elsewhere. Munger, on why:
+
+> There are three ways to go broke: liquor, ladies, and leverage.
+
+He was only half joking about which of the three actually gets people. A great
+business with a fragile balance sheet is still a business that can be forced to
+sell at the bottom — which is why leverage is a gate here and not a weighting.
+
 ### Excluded before scoring
 
 Banks, NBFCs and insurers (ROIC is meaningless when debt is the raw material),
