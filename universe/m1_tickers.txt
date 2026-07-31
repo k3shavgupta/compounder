@@ -1,0 +1,30 @@
+# M1 test set - 20 tickers chosen to break things, not to flatter the code.
+# Format: TICKER  # why it's here
+#
+# --- should clearly PASS the gate ---
+MSFT    # high ROIC, huge FCF, net cash
+MA      # asset-light, ~40% ROIC, the archetype
+V       # same
+MCO     # Moody's - moat is regulatory, ROIC very high
+CPRT    # Copart - unglamorous, exceptional returns
+CTAS    # Cintas - boring compounder
+ODFL    # capital-heavy but genuinely high ROIC
+ADBE    # software, watch for SBC distorting FCF
+#
+# --- should clearly FAIL ---
+F       # autos: low ROIC, huge finance arm, cyclical
+T       # AT&T: debt-heavy, ROIC below cost of capital
+INTC    # headline ROIC was fine, incremental ROIC collapsed - rule 3 must catch this
+BA      # negative equity AND distress - must not crash the code
+LUV     # airline: thin returns, capital hungry
+#
+# --- edge cases that break naive invested-capital math ---
+AAPL    # buybacks have shrunk equity hard; ROIC looks absurd if computed lazily
+SBUX    # NEGATIVE equity from buybacks -> negative invested capital -> divide-by-sign bug
+HD      # same problem
+MCD     # same problem, plus heavy lease accounting
+ABBV    # goodwill-heavy from acquisitions; ROIC differs a lot with/without goodwill
+#
+# --- must be EXCLUDED by sector, not scored ---
+JPM     # bank - if this gets a ROIC, the exclusion filter is broken
+BRK.B   # conglomerate + insurance + ticker has a dot (EDGAR maps it as BRK-B)
