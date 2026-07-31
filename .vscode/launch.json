@@ -1,0 +1,30 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Run gate (full universe)",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/run_ingest.py",
+      "console": "integratedTerminal",
+      "justMyCode": false
+    },
+    {
+      "name": "Detail: prompt for ticker",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/run_ingest.py",
+      "args": ["--detail", "${input:ticker}"],
+      "console": "integratedTerminal",
+      "justMyCode": false
+    }
+  ],
+  "inputs": [
+    {
+      "id": "ticker",
+      "type": "promptString",
+      "description": "Ticker to inspect year by year",
+      "default": "MSFT"
+    }
+  ]
+}
