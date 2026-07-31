@@ -67,6 +67,22 @@ def build(tickers, model, host):
     truth = _load(TRUTH, {})
     out = {"model": model, "built": date.today().isoformat(), "items": []}
 
+    # Carry verdicts forward for findings that come back byte-identical. The
+    # same quote against the same question is the same judgement, so re-asking
+    # for it wastes the one resource this harness actually runs on. Anything
+    # that changed is left blank and must be judged fresh.
+    previous = _load(labels_path(model), {}) or {}
+    prior = {
+        (i["ticker"], i["question"], i["quote"]): i
+        for i in previous.get("items", []) if i.get("verdict")
+    }
+    if previous.get("items"):
+        archive = labels_path(model).with_name(
+            labels_path(model).stem + "-" + previous.get("built", "prev") + ".json")
+        if not archive.exists():
+            _save(archive, previous)
+            console.print("[dim]archived previous run -> {}[/]".format(archive.name))
+
     for tk in tickers:
         cik = edgar.cik_for(tk)
         filing = edgar.latest_10k(cik) if cik else None
@@ -82,7 +98,7 @@ def build(tickers, model, host):
         truth.setdefault(tk, {})
         for q in reader.QUESTIONS:
             qvec = reader.embed([q["probe"]], host=host)[0]
-            excerpts = [chunks[i] for i in reader.rank(qvec, vecs, chunks=chunks, terms=q.get("terms"))]
+            excerpts = [chunks[i] for i in reader.rank(qvec, vecs, chunks=chunks, terms=q.get("terms") if q.get("hybrid") else None)]
             answer = reader.ask(q["ask"], excerpts, host=host, model=model)
             found, dropped = reader.verify(answer, text)
 
@@ -90,21 +106,30 @@ def build(tickers, model, host):
             # model, so it survives across every model you evaluate.
             truth[tk].setdefault(q["key"], "")
 
+            carried = 0
             for i, f in enumerate(found):
+                seen = prior.get((tk, q["key"], f["quote"]))
                 out["items"].append({
                     "id": "{}/{}/{}".format(tk, q["key"], i),
                     "ticker": tk, "question": q["key"],
-                    "claim": f["claim"], "quote": f["quote"], "verdict": "",
+                    "claim": f["claim"], "quote": f["quote"],
+                    "verdict": seen["verdict"] if seen else "",
+                    **({"note": seen["note"]} if seen and seen.get("note") else {}),
+                    **({"carried": True} if seen else {}),
                 })
+                carried += 1 if seen else 0
             out.setdefault("dropped", {})["{}/{}".format(tk, q["key"])] = dropped
             out.setdefault("counts", {})["{}/{}".format(tk, q["key"])] = len(found)
-            console.print("   {:<24} {} found, {} dropped".format(q["key"], len(found), dropped))
+            console.print("   {:<24} {} found, {} dropped{}".format(
+                q["key"], len(found), dropped,
+                ", {} carried".format(carried) if carried else ""))
 
     _save(TRUTH, truth)
     _save(labels_path(model), out)
     blank = sum(1 for t in truth.values() for v in t.values() if not v)
-    console.print("\n[bold]{} findings to label[/]  ->  {}".format(
-        len(out["items"]), labels_path(model).name))
+    blank_items = sum(1 for i in out["items"] if not i["verdict"])
+    console.print("\n[bold]{} findings, {} needing a verdict[/]  ->  {}".format(
+        len(out["items"]), blank_items, labels_path(model).name))
     console.print("[bold]{} truth entries to fill[/]  ->  {}".format(blank, TRUTH.name))
     console.print("\nRun: [bold]python run_eval.py label[/]")
 

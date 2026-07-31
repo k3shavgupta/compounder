@@ -33,6 +33,10 @@ CHAT_MODEL = os.getenv("CHAT_MODEL", "qwen2.5:7b")
 NUM_CTX = 16384
 TOP_K = 8
 
+# A term matching more than this share of chunks carries no information and is
+# ignored for seeding.
+MAX_TERM_SHARE = 0.12
+
 # Ollama evicts an idle model from VRAM and reloads it on the next call. Across
 # an eval sweep that is minutes of pure reload time and makes runs look slower
 # than they are, so pin both models in memory for the duration.
@@ -41,6 +45,11 @@ KEEP_ALIVE = "30m"
 QUESTIONS = [
     {
         "key": "customer_concentration",
+        # Seeding is enabled here alone: it recovered Adobe and Trade Desk
+        # (0 -> 1 each, both verified). On the other three questions it either
+        # did nothing or displaced better chunks, so it stays off until an eval
+        # says otherwise.
+        "hybrid": True,
         "terms": ["10% of", "significant customers", "no customers", "accounted for more than", "of our total revenue"],
         "ask": "Do any single customers account for 10% or more of revenue? "
                "If so, name them and give the percentages.",
@@ -54,7 +63,6 @@ QUESTIONS = [
     },
     {
         "key": "debt_maturity",
-        "terms": ["maturities of long-term debt", "senior notes due", "matures", "principal payments", "due and payable"],
         "ask": "When does the company's debt mature? Give the schedule of "
                "principal repayments by year if one is disclosed.",
         "probe": "aggregate maturities of long-term debt principal payments due "
@@ -62,7 +70,6 @@ QUESTIONS = [
     },
     {
         "key": "competition",
-        "terms": ["we compete", "our competitors", "competitive advantage", "highly competitive"],
         "ask": "Who does the company say it competes with, and what does it "
                "claim as its competitive advantages?",
         "probe": "competition competitors we compete principally on the basis of "
@@ -70,7 +77,6 @@ QUESTIONS = [
     },
     {
         "key": "key_risks",
-        "terms": ["materially adversely affect", "could harm our business", "we may be unable", "risk factors"],
         "ask": "What are the most significant risks disclosed that could "
                "permanently impair this business?",
         "probe": "risk factors could materially adversely affect our business "
@@ -131,10 +137,21 @@ def rank(question_vec, chunk_vecs, k=TOP_K, chunks=None, terms=None):
     if not (chunks and terms):
         return dense[:k]
 
+    # Only discriminative terms are allowed to seed. "10% of" appears in a
+    # handful of chunks and pinpoints the disclosure; "materially adversely
+    # affect" appears on nearly every page of a 10-K and seeding on it floods
+    # the excerpts with boilerplate. Naive seeding fixed customer_concentration
+    # and broke key_risks for exactly this reason — this is the IDF idea in its
+    # cheapest possible form.
+    low_chunks = [c.lower() for c in chunks]
+    useful = [t for t in terms
+              if 0 < sum(1 for c in low_chunks if t in c) <= MAX_TERM_SHARE * len(chunks)]
+    if not useful:
+        return dense[:k]
+
     hits = []
-    for i, c in enumerate(chunks):
-        low = c.lower()
-        n = sum(1 for t in terms if t in low)
+    for i, c in enumerate(low_chunks):
+        n = sum(1 for t in useful if t in c)
         if n:
             hits.append((n, -dense.index(i), i))
     hits.sort(reverse=True)
